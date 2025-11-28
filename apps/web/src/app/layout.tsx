@@ -39,10 +39,6 @@ export default function RootLayout({
             <Toaster />
           </ReactQueryProvider>
         </ThemeProvider>
-        <footer className="fixed bottom-2 left-2 right-2">
-          <a href="https://github.com/yachzu/wms-app" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <p>© {new Date().getFullYear()} WMS - Warehouse Management System</p>
-        </footer>
       </body>
     </html>
   );
