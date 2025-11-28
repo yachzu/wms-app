@@ -6,6 +6,14 @@ const prisma = new PrismaClient();
 async function main() {
     console.log('Start seeding ...');
 
+    // SAFETY CHECK: Prevent accidental seeding in production
+    if (process.env.NODE_ENV === 'production' && process.env.FORCE_SEED !== 'true') {
+        console.error('❌ SEEDING ABORTED: You are in PRODUCTION environment!');
+        console.error('   This script wipes the database. If you really want to do this,');
+        console.error('   run with FORCE_SEED=true environment variable.');
+        process.exit(1);
+    }
+
     // 0. Clean Database
     console.log('Cleaning database...');
     await prisma.stockMovement.deleteMany();
