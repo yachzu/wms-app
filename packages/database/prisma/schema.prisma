@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+enum LocationType {
+  PICKING
+  BULK
+  RECEIVING
+  DISPATCH
+}
+
+enum MovementType {
+  IN
+  OUT
+  TRANSFER
+  ADJUSTMENT
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING
+  PROCESSING
+  COMPLETED
+  CANCELLED
+}
+
+// Core Entities
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(STAFF)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  movements StockMovement[]
+  orders    Order[]
+}
+
+model Warehouse {
+  id        String   @id @default(uuid())
+  name      String
+  address   String?
+  capacity  Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  zones Zone[]
+}
+
+model Zone {
+  id          String   @id @default(uuid())
+  name        String
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  
+  locations Location[]
+}
+
+model Location {
+  id        String       @id @default(uuid())
+  code      String       @unique // e.g., "A-01-01"
+  type      LocationType @default(PICKING)
+  zoneId    String
+  zone      Zone         @relation(fields: [zoneId], references: [id])
+
+  inventoryItems InventoryItem[]
+  movementsFrom  StockMovement[] @relation("FromLocation")
+  movementsTo    StockMovement[] @relation("ToLocation")
+
+  @@index([zoneId])
+}
+
+// Inventory
+
+model Product {
+  id          String   @id @default(uuid())
+  sku         String   @unique
+  name        String
+  description String?
+  barcode     String?  @unique
+  minStock    Int      @default(0)
+  price       Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventoryItems InventoryItem[]
+  movements      StockMovement[]
+  orderItems     OrderItem[]
+}
+
+model InventoryItem {
+  id         String   @id @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+  quantity   Int
+  batchNo    String?
+  expiryDate DateTime?
+
+  @@unique([productId, locationId, batchNo])
+  @@index([productId])
+  @@index([locationId])
+}
+
+model StockMovement {
+  id             String       @id @default(uuid())
+  type           MovementType
+  productId      String
+  product        Product      @relation(fields: [productId], references: [id])
+  fromLocationId String?
+  fromLocation   Location?    @relation("FromLocation", fields: [fromLocationId], references: [id])
+  toLocationId   String?
+  toLocation     Location?    @relation("ToLocation", fields: [toLocationId], references: [id])
+  quantity       Int
+  referenceId    String?      // ID of the Order or Adjustment
+  createdById    String
+  createdBy      User         @relation(fields: [createdById], references: [id])
+  createdAt      DateTime     @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+  @@index([productId, createdAt])
+}
+
+// Orders (Simplified for V1)
+
+model Order {
+  id          String      @id @default(uuid())
+  orderNumber String      @unique
+  type        MovementType // IN (Purchase) or OUT (Sales)
+  status      OrderStatus @default(PENDING)
+  partnerName String?     // Supplier or Customer Name
+  totalAmount Float       @default(0)
+  expectedDate DateTime?
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+
+  @@index([orderId])
+  @@index([productId])
+}
