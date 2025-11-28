@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
         >
           <ReactQueryProvider>
             {children}
+            <SpeedInsights />
             <Toaster />
           </ReactQueryProvider>
         </ThemeProvider>
