@@ -12,6 +12,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { OrdersModule } from './orders/orders.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
     OrdersModule,
     DashboardModule,
     AnalyticsModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

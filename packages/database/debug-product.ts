@@ -1,7 +1,7 @@
 
-import { PrismaClient } from '@prisma/client';
+import { createPrismaClient } from './index';
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
     console.log('Checking existing products...');

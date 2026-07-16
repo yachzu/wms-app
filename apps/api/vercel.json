@@ -1,0 +1,9 @@
+{
+  "buildCommand": "cd ../../packages/database && npx prisma generate && cd ../../apps/api && npx --package=@nestjs/cli nest build",
+  "installCommand": "npm install --include=dev",
+  "framework": null,
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ]
+}

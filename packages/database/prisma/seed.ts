@@ -1,7 +1,8 @@
-import { PrismaClient, Role, LocationType, MovementType, OrderStatus } from '@prisma/client';
+import { Role, LocationType, MovementType, OrderStatus } from '@prisma/client';
+import { createPrismaClient } from '../index';
 import * as bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 async function main() {
     console.log('Start seeding ...');
