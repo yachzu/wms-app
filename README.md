@@ -2,41 +2,37 @@
 
 A production-grade, full-stack Warehouse Management System built with a modern monorepo architecture.
 
-## 🌟 Key Features
+## Key Features
 
-### 🏢 Warehouse Operations
+### Warehouse Operations
 - **Multi-Warehouse Support**: Manage multiple warehouses, zones, and locations.
 - **Inventory Management**: Real-time tracking of stock levels and movements.
 - **Stock Movements**: Inbound, Outbound, Transfer, and Adjustment operations.
 - **FIFO Strategy**: First-In-First-Out logic for automated stock deduction.
 
-### 📦 Product Management
+### Product Management
 - **Product Catalog**: Manage products with SKU, barcode, and min stock levels.
 - **Low Stock Alerts**: Dashboard indicators for items below minimum stock.
 
-### 🛒 Order Management
+### Order Management
 - **Purchase & Sales Orders**: Create and track orders.
 - **Automated Fulfillment**: Auto-deduct stock upon order completion.
 - **Status Tracking**: Pending, Processing, Completed, Cancelled statuses.
 
-### 🔒 Security & Performance
+### Security and Performance
 - **Authentication**: Secure JWT auth with role-based access control (RBAC).
 - **Security**: Helmet.js headers, Rate Limiting, CORS protection.
 - **Performance**: N+1 query optimization, Compression, Database indexing.
 - **Logging**: Structured JSON logging with Winston.
 
----
-
-## 🏗 Architecture
+## Architecture
 
 - **Monorepo**: Managed by [Turborepo](https://turbo.build/repo).
 - **Frontend**: [Next.js](https://nextjs.org/) (App Router) - `apps/web`.
 - **Backend**: [NestJS](https://nestjs.com/) - `apps/api`.
 - **Database**: PostgreSQL (Neon) - `packages/database` (Prisma).
 
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (LTS)
@@ -64,9 +60,7 @@ npm run dev
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:3001](http://localhost:3001)
 
----
-
-## 📦 Project Structure
+## Project Structure
 
 ```text
 .
@@ -79,9 +73,7 @@ npm run dev
 └── package.json        # Root Scripts
 ```
 
----
-
-## 🛠 Development Commands
+## Development Commands
 
 - `npm run dev`: Start development servers.
 - `npm run build`: Build all apps and packages.
@@ -90,9 +82,7 @@ npm run dev
 - `npm run db:push`: Push schema changes to DB.
 - `npm run db:seed`: Seed database with mock data.
 
----
-
-## 🚀 Deployment
+## Deployment
 
 ### Recommended Stack (Free Tier)
 - **Backend + DB**: [Railway](https://railway.app)
@@ -104,19 +94,14 @@ npm run dev
 3. Connect repo to Vercel (for Web).
 4. Configure Environment Variables (`DATABASE_URL`, `JWT_SECRET`, etc.).
 
+## Security
 
----
-
-## 🔒 Security
-
-- **JWT**: Strong 256-bit secret keys.
+- **JWT**: 256-bit secret keys.
 - **Headers**: Helmet.js security headers.
-- **Rate Limiting**: 100 requests/minute per IP.
+- **Rate Limiting**: 100 requests per minute per IP.
 - **CORS**: Strict origin validation.
 - **Input Validation**: DTO validation with whitelist.
 
----
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License.

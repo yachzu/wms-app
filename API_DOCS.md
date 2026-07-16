@@ -13,13 +13,9 @@ All endpoints except `/auth/login` and `/auth/register` require JWT authenticati
 - `POST /auth/login` - Login and get token
 - `GET /auth/profile` - Get current user profile
 
----
-
 ## Dashboard
 
 - `GET /dashboard/stats` - Get dashboard statistics (Total Products, Low Stock, Movements, etc.)
-
----
 
 ## Products
 
@@ -29,8 +25,6 @@ All endpoints except `/auth/login` and `/auth/register` require JWT authenticati
 - `PATCH /products/:id` - Update product
 - `DELETE /products/:id` - Delete product
 
----
-
 ## Warehouses
 
 - `POST /warehouses` - Create warehouse
@@ -39,13 +33,11 @@ All endpoints except `/auth/login` and `/auth/register` require JWT authenticati
 - `PATCH /warehouses/:id` - Update warehouse
 - `DELETE /warehouses/:id` - Delete warehouse
 
-### Zones & Locations
+### Zones and Locations
 - `POST /warehouses/zones` - Create zone
 - `POST /warehouses/locations` - Create location
 - `GET /warehouses/zones/all` - List zones
 - `GET /warehouses/locations/all` - List locations
-
----
 
 ## Inventory
 
@@ -56,20 +48,18 @@ All endpoints except `/auth/login` and `/auth/register` require JWT authenticati
 **Movement Types:**
 - `IN`: Receive stock (requires `toLocationId`)
 - `OUT`: Ship stock (requires `fromLocationId`)
-- `TRANSFER`: Move stock (requires `fromLocationId` & `toLocationId`)
+- `TRANSFER`: Move stock (requires `fromLocationId` and `toLocationId`)
 - `ADJUSTMENT`: Correct stock (requires `toLocationId`)
 
 ### Balance
 - `GET /inventory/balance` - Get current stock balance
   - Query Params: `productId`, `locationId`
 
----
-
 ## Orders
 
 - `POST /orders` - Create order (IN/OUT)
 - `GET /orders` - List all orders
 - `GET /orders/:id` - Get order details
-- `PATCH /orders/:id/status` - Update order status (PENDING -> PROCESSING -> COMPLETED/CANCELLED)
+- `PATCH /orders/:id/status` - Update order status (PENDING, PROCESSING, COMPLETED, CANCELLED)
 
-**Note:** Completing an order automatically triggers stock movements (FIFO deduction for OUT orders).
+Completing an order automatically triggers stock movements (FIFO deduction for OUT orders).
